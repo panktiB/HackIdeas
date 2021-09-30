@@ -1,12 +1,12 @@
 import VueRouter from 'vue-router';
-import LandingPage from '../pages/LandingPage';
+import Login from '../components/Login';
 
 const router = new VueRouter({
   routes: [
     {
-      name: 'LandingPage',
-      component: LandingPage,
-      path: '/'
+      name: 'Login',
+      component: Login,
+      path: ''
     }
   ],
 });

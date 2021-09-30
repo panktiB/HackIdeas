@@ -1,5 +1,5 @@
 <template>
-  <vs-row>
+  <vs-row class="bordered-dark">
     Landing here
   </vs-row>
 </template>
