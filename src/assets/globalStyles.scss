@@ -1,0 +1,433 @@
+body, .default-font-family {
+  //font-family: "Varela Round", serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  overflow: hidden;
+}
+
+$cursorStyles: (
+    "pointer": pointer,
+    "grab": grab,
+    "text": text,
+    "not-allowed": not-allowed,
+    "default": default,
+);
+
+@each $style, $value in $cursorStyles {
+  .#{$style}-cursor {
+    cursor: $value;
+  }
+}
+
+$fixedSizes: (
+    30: 30px,
+    40: 40px,
+    50: 50px,
+    70: 70px,
+    80: 80px,
+    100: 100px,
+    130: 130px,
+    150: 150px,
+    200: 200px,
+    250: 250px,
+    300: 300px,
+    350: 350px,
+    400: 400px,
+    500: 500px,
+    max-content: max-content,
+    min-content: min-content,
+);
+
+@each $heightSize, $height in $fixedSizes {
+  .fixed-height-#{$heightSize} {
+    height: $height !important;
+  }
+  .fixed-max-height-#{$heightSize} {
+    max-height: $height !important;
+  }
+  .fixed-min-height-#{$heightSize} {
+    min-height: $height !important;
+  }
+}
+
+@each $widthSize, $width in $fixedSizes {
+  .fixed-width-#{$widthSize} {
+    width: $width !important;
+  }
+  .fixed-max-width-#{$widthSize} {
+    max-width: $width !important;
+  }
+  .fixed-min-width-#{$widthSize} {
+    min-width: $width !important;
+  }
+}
+
+$relativeSizes: (
+    5: 5%,
+    10: 10%,
+    25: 25%,
+    30: 30%,
+    40: 40%,
+    50: 50%,
+    60: 60%,
+    70: 70%,
+    75: 75%,
+    80: 80%,
+    85: 85%,
+    90: 90%,
+    95: 95%,
+    100: 100%,
+    inherit: inherit,
+    max-content: max-content,
+    min-content: min-content,
+);
+@each $heightSize, $height in $relativeSizes {
+  .height-#{$heightSize} {
+    height: $height !important;
+  }
+  .max-height-#{$heightSize} {
+    max-height: $height !important;
+  }
+  .min-height-#{$heightSize} {
+    min-height: $height !important;
+  }
+}
+
+@each $widthSize, $width in $relativeSizes {
+  .width-#{$widthSize} {
+    width: $width !important;
+  }
+  .max-width-#{$widthSize} {
+    max-width: $width !important;
+  }
+  .min-width-#{$widthSize} {
+    min-width: $width !important;
+  }
+}
+
+$spacingDirections: (
+    "":(top, left, right, bottom),
+    t:(top),
+    l:(left),
+    b:(bottom),
+    r:(right),
+    v:(top, bottom),
+    h:(left, right),
+    tr:(top, right),
+    tl:(top, left),
+    br:(bottom, right),
+    bl:(bottom, left),
+    th:(top, left, right),
+    bh:(bottom, left, right),
+    vl:(top, bottom, left),
+    vr:(top, bottom, right),
+);
+$spacingValues: (
+    none:0,
+    auto:auto,
+    0:0,
+    1:1px,
+    2:2px,
+    3:3px,
+    4:4px,
+    5:5px,
+    6:6px,
+    7:7px,
+    8:8px,
+    9:9px,
+    10:10px,
+    11:11px,
+    12:12px,
+    13:13px,
+    15:15px,
+    17:17px,
+    20:20px,
+    25:25px,
+    30:30px,
+    35:35px,
+    37:37px,
+    40:40px,
+    50:50px,
+    65:65px,
+    80:80px,
+    100:100px,
+    p10:10%,
+    p25:25%,
+    p50:50%,
+);
+
+@each $spacingSize, $spacingValue in $spacingValues {
+  .border-radius-#{$spacingSize} {
+    border-radius: $spacingValue;
+  }
+  .border-radius-bottom-left-#{$spacingSize} {
+    border-bottom-left-radius: #{$spacingValue};
+  }
+  .border-radius-bottom-right-#{$spacingSize} {
+    border-bottom-right-radius: #{$spacingValue};
+  }
+  .border-radius-top-left-#{$spacingSize} {
+    border-top-left-radius: #{$spacingValue};
+  }
+  .border-radius-top-right-#{$spacingSize} {
+    border-top-right-radius: #{$spacingValue};
+  }
+  @each $spacingDirection, $stylingDirections in $spacingDirections {
+
+    .m#{$spacingDirection}-#{$spacingSize} {
+      @each $stylingDirection in $stylingDirections {
+        margin-#{$stylingDirection}: #{$spacingValue} !important;
+      }
+    }
+    .m#{$spacingDirection}--#{$spacingSize} {
+      @each $stylingDirection in $stylingDirections {
+        @if ($spacingValue == auto) {
+          margin-#{$stylingDirection}: $spacingValue !important;
+        } @else {
+          margin-#{$stylingDirection}: (-1 * $spacingValue) !important;
+        }
+      }
+    }
+    .p#{$spacingDirection}-#{$spacingSize} {
+      @each $stylingDirection in $stylingDirections {
+        padding-#{$stylingDirection}: #{$spacingValue} !important;
+      }
+    }
+
+  }
+}
+
+$borderTypes: (
+    "":"",
+    "-top":"",
+    "-bottom":"",
+    "-left":"",
+    "-right":"",
+);
+$borderStyles: (
+    "":solid,
+    "solid":solid,
+    "-dashed":dashed
+);
+$borderColors: (
+    "": rgba(235, 235, 235, 0.75),
+    "-primary": rgba(var(--vs-primary), 1),
+    "-secondary": rgba(var(--vs-secondary), 1),
+    "-danger":rgba(var(--vs-danger), 1),
+    "-dark": lightgray,
+    "-error": red,
+    "-blue": #6B84AF,
+    "-white": white,
+);
+$borderWidths: (
+    "":1px,
+    "-1":1px,
+    "-2":2px,
+    "-3":3px,
+    "-4":4px,
+    "-5":5px,
+    "-none":0,
+);
+
+@each $borderType, $bord in $borderTypes {
+  @each $borderSize, $borderWidth in $borderWidths {
+    @each $borderStyleType, $borderStyle in $borderStyles {
+      @each $borderColorName, $borderColor in $borderColors {
+        //how to use this class
+        // example class name :
+        // bordered {'' || '-top' || '-bottom' || '-left' || '-right' } {'' || '-dashed'} {'' || '-dark'} {'' || '-1' || '-2' || '-3' || '-4' || '-5'}
+        .bordered#{ $borderType }#{ $borderStyleType }#{$borderColorName}#{ $borderSize } {
+          border#{ $borderType} : $borderWidth $borderStyle $borderColor !important;
+        }
+
+        .bordered-hover#{ $borderType }#{ $borderStyleType }#{$borderColorName}#{ $borderSize } {
+          border: $borderWidth $borderStyle transparent !important;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            border#{ $borderType} : $borderWidth $borderStyle $borderColor !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+$availableOverflow: (
+    x-auto: (prop:-x, val:auto),
+    x-hidden: (prop:-x, val:hidden),
+    y-auto:(prop:-y, val:auto),
+    y-hidden: (prop:-y, val:hidden),
+    both-auto: (prop:"", val:auto),
+    both-hidden: (prop:"", val:hidden),
+);
+
+@each $_overflow, $type in $availableOverflow {
+  .overflow--#{ $_overflow } {
+    overflow#{ map_get($type ,"prop") }: map_get($type, "val") !important;
+  }
+}
+
+$fontSizes: (
+    smallest: 8px,
+    smaller: 10px,
+    small: 12px,
+    medium: 14px,
+    regular: 16px,
+    large: 18px,
+    larger: 20px,
+    largest: 22px,
+);
+@each $fontSizeName, $fontSize in $fontSizes {
+  .font-#{$fontSizeName} {
+    font-size: #{$fontSize} !important;
+  }
+}
+
+$textStyles: (
+    capitalize:capitalize,
+    uppercase:uppercase,
+    lowercase:lowercase,
+);
+@each $textStyleName, $textStyle in $textStyles {
+
+  .text-#{$textStyleName} {
+    text-transform: $textStyle !important;
+  }
+
+}
+
+.bg-lightgrey {
+  background-color: #f2f2f2 !important;
+}
+
+.flex-box {
+  display: flex;
+
+  &.flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+}
+
+$textDecorations: (
+    "underline": underline,
+    "strike": line-through,
+);
+@each $textDecorationType, $textDecoration in $textDecorations {
+  .text-#{$textDecorationType} {
+    text-decoration: $textDecoration;
+  }
+}
+
+$fontWeights: (
+    "bold":bold,
+    "normal":normal,
+);
+@each $fontWeightType, $fontWeight in $fontWeights {
+  .text-#{$fontWeightType} {
+    font-weight: $fontWeight;
+  }
+}
+
+$wordBreaks: (
+    "word":break-word,
+    "all":break-all,
+);
+
+
+@each $wordBreakType, $wordBreak in $wordBreaks {
+  .break-#{$wordBreakType} {
+    word-break: $wordBreak;
+  }
+}
+
+$positions: (
+    "absolute":absolute,
+    "static":static,
+    "fixed":fixed,
+    "relative":relative,
+    "sticky":sticky,
+);
+
+@each $positionType, $position in $positions {
+  .position-#{$positionType} {
+    position: $position;
+  }
+}
+
+.ellipsis-word {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.background-white {
+  background-color: white !important;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-left {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+.text-align-center {
+  text-align: center;
+  justify-content: center;
+}
+
+$colors: (
+    'dark-grey': dark-grey,
+    'grey': grey,
+    'lightgrey': light-grey,
+    'lightestgrey': lightestgrey,
+    //'danger': rgba(var(--vs-dark), 1)
+    'danger': 'red'
+);
+
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+}
+
+.text-disabled {
+  color: #626262 !important;
+  opacity: 0.8 !important;
+  pointer-events: none !important;
+  @extend .not-allowed-cursor
+}
+
+.disabled-container {
+  pointer-events: none;
+  @extend .not-allowed-cursor
+}
+
+.display-block {
+  display: block;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
