@@ -6,23 +6,34 @@ let employeeMixin = {
   },
   methods: {
     getEmployees: function () {
-      return this.employees;
-      // return localStorage.getItem('employees');
+      let employees = localStorage.getItem('employees');
+      if(employees && employees.length) {
+        return JSON.parse(employees);
+      } else {
+        return [];
+      }
     },
     setEmployees: function (employees) {
-      this.employees = employees;
-      return this.employees;
-      // localStorage.setItem('employees', employees);
+      localStorage.setItem('employees', employees.length ? JSON.stringify(employees) : '');
     },
     setEmployee: function (employee) {
-      this.employees.push(employee);
-      return this.employees;
-      // localStorage.setItem('employees');
+      let employees = this.getEmployees();
+      employees.push(employee);
+      this.setEmployees(employees);
     },
     deleteEmployees: function () {
-      // localStorage.removeItem('employees');
+      localStorage.removeItem('employees');
       this.employees = [];
       return this.employees;
+    },
+    setCurrentUser: function (employee) {
+      localStorage.setItem('hack-ideas-current-user', employee);
+    },
+    removeCurrentUser: function () {
+      localStorage.removeItem('hack-ideas-current-user');
+    },
+    getCurrentUser: function () {
+      return localStorage.getItem('hack-ideas-current-user');
     }
   }
 };

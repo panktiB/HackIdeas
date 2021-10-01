@@ -7,7 +7,7 @@ import 'vuesax/dist/vuesax.css';
 // import './assets/font-awesome/css/all.min.css';
 import 'animate.css/animate.min.css';
 import './assets/globalStyles.scss';
-
+import './assets/font-awesome/css/all.min.css';
 
 import Router from 'vue-router';
 import router from './routes';

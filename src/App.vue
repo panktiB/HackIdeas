@@ -10,21 +10,25 @@
 <script>
 
 import { EventBus } from './eventBus';
+import employeeMixin from './mixins/employeeMixin';
 
 export default {
   name: 'App',
+  mixins: [employeeMixin],
   data: function () {
     return {
       isLoggedIn: false,
+      currentUser: null,
     };
   },
   beforeMount () {
     this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     EventBus.$on('set-logged-in', this.handleLogin);
+    EventBus.$on('logout', this.handleLogout);
   },
   beforeDestroy () {
-    localStorage.removeItem('isLoggedIn');
     EventBus.$off('set-logged-in', this.handleLogin);
+    EventBus.$off('logout', this.handleLogout);
   },
   mounted () {
     if(! this.isLoggedIn) {
@@ -32,13 +36,15 @@ export default {
     }
   },
   methods: {
-    handleLogin: function () {
+    handleLogin: function (user) {
       this.isLoggedIn = true;
+      this.currentUser = user;
+      this.setCurrentUser(this.currentUser);
       localStorage.setItem('isLoggedIn', 'true');
     },
     handleLogout: function () {
       this.isLoggedIn = false;
-      localStorage.setItem('isLoggedIn', 'false');
+      this.removeCurrentUser();
     }
   }
 };

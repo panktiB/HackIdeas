@@ -31,6 +31,17 @@
             Register
           </vs-button>
         </vs-row>
+        <vs-row>
+          <div class="font-medium pt-10">
+            Already have an account?
+            <span
+              class="text-underline pointer-cursor ph-3 hover:text-primary"
+              @click="goToLogin"
+            >
+              Login
+            </span>
+          </div>
+        </vs-row>
       </vs-col>
     </vs-row>
   </div>
@@ -38,6 +49,7 @@
 
 <script>
   import employeeMixin from '../mixins/employeeMixin';
+  import { EventBus } from '../eventBus';
 
   export default {
     name: 'AppRegister',
@@ -55,18 +67,22 @@
         return pattern.test(this.employeeID);
       }
     },
-    beforeMount () {
+    mounted () {
       this.existingEmployees = this.deepCopy(this.getEmployees());
     },
     methods: {
       registerEmployee: function () {
-        if(this.employeeID in this.existingEmployees) {
+        if(this.existingEmployees.indexOf(this.employeeID) > -1) {
           this.errorMessage = 'Employee already registered. Please login instead.';
         } else {
           this.setEmployee(this.employeeID);
+          EventBus.$emit('set-logged-in', this.employeeID);
           this.routeTo('LandingPage');
         }
       },
+      goToLogin: function () {
+        this.routeTo('Login');
+      }
     }
   };
 </script>

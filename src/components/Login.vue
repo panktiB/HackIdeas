@@ -49,6 +49,7 @@
 
 <script>
   import employeeMixin from '../mixins/employeeMixin';
+  import { EventBus } from '../eventBus';
 
   export default {
     name: 'Login',
@@ -66,12 +67,13 @@
         return pattern.test(this.employeeID);
       }
     },
-    beforeMount () {
-      this.existingEmployees = this.deepCopy(this.existingEmployees);
+    mounted () {
+      this.existingEmployees = this.deepCopy(this.getEmployees());
     },
     methods: {
       login: function () {
-        if(this.employeeID in this.existingEmployees) {
+        if(this.existingEmployees.indexOf(this.employeeID) > -1) {
+          EventBus.$emit('set-logged-in', this.employeeID);
           this.routeTo('LandingPage');
         } else {
           this.errorMessage = 'Please register yourself';
