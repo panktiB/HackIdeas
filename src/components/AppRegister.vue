@@ -26,21 +26,10 @@
           <vs-button
             class="width-100 pv-7"
             :disabled="! isValid"
-            @click="login"
+            @click="registerEmployee"
           >
-            Login
+            Register
           </vs-button>
-        </vs-row>
-        <vs-row>
-          <div class="font-medium pt-10">
-            Don't have an account?
-            <span
-              class="text-underline pointer-cursor ph-3 hover:text-primary"
-              @click="goToRegister"
-            >
-              Register
-            </span>
-          </div>
         </vs-row>
       </vs-col>
     </vs-row>
@@ -51,7 +40,7 @@
   import employeeMixin from '../mixins/employeeMixin';
 
   export default {
-    name: 'Login',
+    name: 'AppRegister',
     mixins: [employeeMixin],
     data: function () {
       return {
@@ -67,19 +56,17 @@
       }
     },
     beforeMount () {
-      this.existingEmployees = this.deepCopy(this.existingEmployees);
+      this.existingEmployees = this.deepCopy(this.getEmployees());
     },
     methods: {
-      login: function () {
+      registerEmployee: function () {
         if(this.employeeID in this.existingEmployees) {
-          this.routeTo('LandingPage');
+          this.errorMessage = 'Employee already registered. Please login instead.';
         } else {
-          this.errorMessage = 'Please register yourself';
+          this.setEmployee(this.employeeID);
+          this.routeTo('LandingPage');
         }
       },
-      goToRegister: function () {
-        this.routeTo('Register');
-      }
     }
   };
 </script>

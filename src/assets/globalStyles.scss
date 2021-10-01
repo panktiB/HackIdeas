@@ -403,12 +403,21 @@ $colors: (
     'lightgrey': light-grey,
     'lightestgrey': lightestgrey,
     //'danger': rgba(var(--vs-dark), 1)
-    'danger': 'red'
+    'danger': 'red',
+    'primary': rgba(var(--vs-primary), 1)
 );
 
 @each $colorKey, $color in $colors {
   .text-#{$colorKey} {
     color: $color;
+  }
+}
+
+@each $colorKey, $color in $colors {
+  .hover\:text-#{$colorKey} {
+    &:hover {
+      color: $color !important;
+    }
   }
 }
 
