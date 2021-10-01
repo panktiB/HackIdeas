@@ -6,15 +6,40 @@
     >
       <left-sidebar :current-user="getCurrentUser()" />
     </vs-col>
-    <vs-col vs-w="10">
-      <template v-if="challenges.length">
-        <app-challenges />
-      </template>
-      <template v-else>
-        <vs-button @click="openPopup">
-          Create a challenge
-        </vs-button>
-      </template>
+    <vs-col
+      vs-w="10"
+      class="p-10"
+    >
+      <vs-row
+        :class="! challenges.length ? 'height-100 width-100' : ''"
+        vs-align="center"
+      >
+        <vs-col
+          v-if="challenges.length"
+          vs-w="6"
+          class="text-primary"
+        >
+          Challenges
+        </vs-col>
+        <vs-col
+          :vs-w="! challenges.length ? 12 : 6"
+          :class="! challenges.length ? 'height-100 width-100' : ''"
+          vs-type="flex"
+          vs-justify="flex-end"
+        >
+          <vs-button
+            :class="! challenges.length ? 'height-100 width-100 font-large' : 'ph-8 pv-5'"
+            type="flat"
+            @click="openPopup"
+          >
+            Create
+          </vs-button>
+        </vs-col>
+      </vs-row>
+      <app-challenges
+        v-if="challenges.length"
+        :saved-challenges="challenges"
+      />
     </vs-col>
     <create-challenge
       :show="showPopup"
@@ -44,21 +69,47 @@
       };
     },
     beforeMount () {
-      this.challenges = this.getChallenges();
-      this.challenge = this.getBaseChallenge();
-      this.challenge['owner'] = this.getCurrentUser();
+      this.updateChallenges();
+      this.resetChallenge();
     },
     methods: {
+      updateChallenges: function () {
+        this.challenges = this.getChallenges();
+        this.challenges.push({
+          name: 'a name',
+          description: 'a description',
+          owner: '123456',
+          tags: 'Tech',
+          likes: 0,
+          dislikes: 0,
+          created: new Date(),
+        });
+        this.challenges.push({
+          name: 'another name',
+          description: 'a description',
+          owner: '123466',
+          tags: 'UI',
+          likes: 0,
+          dislikes: 0,
+          created: new Date(),
+        });
+      },
+      resetChallenge: function () {
+        this.challenge = this.getBaseChallenge();
+        this.challenge['owner'] = this.getCurrentUser();
+      },
+      handleCreation: function (challenge) {
+        challenge['created'] = new Date();
+        this.createChallenge(challenge);
+        this.resetChallenge();
+        this.closePopup();
+      },
       openPopup: function () {
         this.showPopup = true;
       },
       closePopup: function () {
         this.showPopup = false;
       },
-      handleCreation: function (challenge) {
-        console.log('created challenge: ', challenge);
-        this.closePopup();
-      }
     }
   };
 </script>

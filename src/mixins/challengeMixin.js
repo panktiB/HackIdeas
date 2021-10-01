@@ -10,6 +10,7 @@ let challengeMixin = {
         tags: [],
         likes: 0,
         dislikes: 0,
+        created: null,
       }
     };
   },
