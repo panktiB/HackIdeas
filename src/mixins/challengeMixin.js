@@ -39,7 +39,12 @@ let challengeMixin = {
     },
     setChallenges: function (challenges) {
       localStorage.setItem('challenges', challenges.length ? JSON.stringify(challenges) : '');
-    }
+    },
+    deleteChallenges: function () {
+      localStorage.removeItem('challenges');
+      this.challenges = [];
+      return this.challenges;
+    },
   }
 };
 

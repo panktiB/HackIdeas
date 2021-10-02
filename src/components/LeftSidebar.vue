@@ -1,9 +1,12 @@
 <template>
   <vs-row>
     <vs-col vs-w="12">
-      <vs-row class="font-medium pv-10 pl-10 text-primary bordered-bottom">
+      <vs-row
+        class="font-medium pv-10 pl-10 text-primary bordered-bottom"
+        vs-align="center"
+      >
         <vs-icon
-          icon="fas fa-user"
+          icon="fas fa-user font-small pr-5"
           icon-pack="fa5"
         />
         {{ currentUser }}
