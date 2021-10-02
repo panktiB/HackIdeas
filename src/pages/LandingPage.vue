@@ -75,24 +75,6 @@
     methods: {
       updateChallenges: function () {
         this.challenges = this.getChallenges();
-        this.challenges.push({
-          name: 'a name',
-          description: 'a description',
-          owner: '123456',
-          tags: 'Tech',
-          likes: 0,
-          dislikes: 0,
-          created: new Date(),
-        });
-        this.challenges.push({
-          name: 'another name',
-          description: 'a description',
-          owner: '123466',
-          tags: 'UI',
-          likes: 0,
-          dislikes: 0,
-          created: new Date(),
-        });
       },
       resetChallenge: function () {
         this.challenge = this.getBaseChallenge();
@@ -100,7 +82,8 @@
       },
       handleCreation: function (challenge) {
         challenge['created'] = new Date();
-        this.createChallenge(challenge);
+        this.setChallenge(challenge);
+        this.updateChallenges();
         this.resetChallenge();
         this.closePopup();
       },

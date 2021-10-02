@@ -36,17 +36,29 @@
         </vs-select>
       </vs-row>
       <vs-row
-        vs-justify="flex-end"
         class="pt-5"
+        vs-align="center"
       >
-        <vs-button
-          type="border"
-          :disabled="! isValid"
-          class="pv-5 ph-8"
-          @click="createChallenge"
+        <vs-col
+          vs-w="8"
+          class="text-danger font-smaller"
         >
-          Create
-        </vs-button>
+          {{ error }}
+        </vs-col>
+        <vs-col
+          vs-w="4"
+          vs-type="flex"
+          vs-justify="flex-end"
+        >
+          <vs-button
+            type="border"
+            :disabled="! isValid"
+            class="pv-5 ph-8"
+            @click="createChallenge"
+          >
+            Create
+          </vs-button>
+        </vs-col>
       </vs-row>
     </div>
   </vs-popup>
@@ -96,7 +108,8 @@
         inputMapping: {
           'text': 'vs-input',
           'select': 'vs-select'
-        }
+        },
+        error: '',
       };
     },
     computed: {
@@ -133,8 +146,19 @@
     },
     methods: {
       createChallenge: function () {
-        this.$emit('create-challenge', this.challenge);
-      }
+        if(this.validateChallenge(this.challenge)) {
+          this.error = '';
+          this.$emit('create-challenge', this.challenge);
+        } else {
+          this.error = 'Name already exists. Please rename challenge';
+        }
+      },
+      validateChallenge: function (challenge) {
+        let existingChallenges = this.getChallenges().map(challenge => {
+          return challenge['name'].toLowerCase();
+        });
+        return existingChallenges.indexOf(challenge['name'].toLowerCase()) === -1;
+      },
     }
   };
 </script>
