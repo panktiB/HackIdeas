@@ -26,16 +26,18 @@
           <vs-button
             class="width-100 pv-7"
             :disabled="! isValid"
-            @click="login"
+            @click="login()"
           >
-            Login
+            <span class="test-login">
+              Login
+            </span>
           </vs-button>
         </vs-row>
         <vs-row>
           <div class="font-medium pt-10">
             Don't have an account?
             <span
-              class="text-underline pointer-cursor ph-3 hover:text-primary"
+              class="text-underline pointer-cursor ph-3 hover:text-primary test-goto-register"
               @click="goToRegister"
             >
               Register

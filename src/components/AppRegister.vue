@@ -28,14 +28,16 @@
             :disabled="! isValid"
             @click="registerEmployee"
           >
-            Register
+            <span class="test-registration">
+              Registration
+            </span>
           </vs-button>
         </vs-row>
         <vs-row>
           <div class="font-medium pt-10">
             Already have an account?
             <span
-              class="text-underline pointer-cursor ph-3 hover:text-primary"
+              class="text-underline pointer-cursor ph-3 hover:text-primary test-goto-login"
               @click="goToLogin"
             >
               Login
