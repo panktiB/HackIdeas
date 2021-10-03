@@ -32,7 +32,9 @@
             type="flat"
             @click="openPopup"
           >
-            Create
+            <span class="test-create-challenge-button">
+              Create
+            </span>
           </vs-button>
         </vs-col>
       </vs-row>

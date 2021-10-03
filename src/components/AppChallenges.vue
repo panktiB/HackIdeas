@@ -98,7 +98,6 @@
         immediate: true,
         deep: true,
         handler: function () {
-
           this.challenges = this.deepCopy(this.savedChallenges);
         }
       }
