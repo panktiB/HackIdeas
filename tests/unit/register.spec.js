@@ -4,8 +4,12 @@ import employeeMixin from '../../src/mixins/employeeMixin';
 import globalMixin from '../../src/globalMixin';
 import Vuesax from 'vuesax';
 
-const localVue = createLocalVue();
+import Router from 'vue-router';
+import router from '../../src/routes';
+
+const localVue = createLocalVue({router: router});
 localVue.use(Vuesax);
+localVue.use(Router)
 
 let wrapper;
 
@@ -18,7 +22,7 @@ beforeEach(() => {
         errorMessage: '',
         existingEmployees: [],
       }
-    }, localVue
+    }, localVue, router
   })
 })
 
@@ -34,6 +38,34 @@ describe('Register', () => {
       employeeID: 123
     })
     expect(wrapper.vm.isValid).toBe(false)
+  })
+  it('Successful registration', async () => {
+    wrapper.setData({
+      existingEmployees: [],
+      employeeID: 123456
+    })
+    await wrapper.find('.test-registration').trigger('click')
+    expect(wrapper.vm.errorMessage.length).toBe(0)
+  })
+  it('Unsuccessful registration', async () => {
+     wrapper.setData({
+      existingEmployees: [123456],
+      employeeID: 123456
+    })
+    await wrapper.find('.test-registration').trigger('click')
+    expect(wrapper.vm.errorMessage.length).toBeGreaterThan(0)
+  })
+  it('Go to login page', async() => {
+    await wrapper.find('.test-goto-login').trigger('click')
+    expect(wrapper.vm.$route.name).toBe('Login')
+  })
+  it('Home page loaded', async () => {
+    wrapper.setData({
+      existingEmployees: [],
+      employeeID: 123456
+    })
+    await wrapper.find('.test-registration').trigger('click')
+    expect(wrapper.vm.$route.name).toBe('LandingPage')
   })
 })
 
