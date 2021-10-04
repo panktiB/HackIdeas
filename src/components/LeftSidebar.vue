@@ -17,7 +17,9 @@
         type="border"
         @click="logout"
       >
-        Logout
+        <span class="test-logout">
+          Logout
+        </span>
       </vs-button>
     </vs-col>
   </vs-row>
