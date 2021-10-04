@@ -32,7 +32,6 @@ export default {
     EventBus.$off('logout', this.handleLogout);
   },
   mounted () {
-    console.log(this.getCurrentUser());
     this.setDefaultRoute();
   },
   methods: {
