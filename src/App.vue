@@ -27,15 +27,23 @@ export default {
     EventBus.$on('logout', this.handleLogout);
   },
   beforeDestroy () {
+    this.handleLogout();
     EventBus.$off('set-logged-in', this.handleLogin);
     EventBus.$off('logout', this.handleLogout);
   },
   mounted () {
-    if(! this.isLoggedIn) {
-      this.routeTo('Login');
-    }
+    this.setDefaultRoute();
   },
   methods: {
+    setDefaultRoute: function () {
+      if(this.$route.path === '/' || this.$route.path === '') {
+        if(this.isLoggedIn) {
+          this.routeTo('LandingPage');
+        } else {
+          this.routeTo('Login');
+        }
+      }
+    },
     handleLogin: function (user) {
       this.isLoggedIn = true;
       this.currentUser = user;
@@ -44,6 +52,8 @@ export default {
     },
     handleLogout: function () {
       this.isLoggedIn = false;
+      localStorage.setItem('isLoggedIn', 'false');
+      this.currentUser = null;
       this.removeCurrentUser();
     }
   }

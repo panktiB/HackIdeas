@@ -29,7 +29,7 @@
             @click="registerEmployee"
           >
             <span class="test-registration">
-              Registration
+              Register
             </span>
           </vs-button>
         </vs-row>
