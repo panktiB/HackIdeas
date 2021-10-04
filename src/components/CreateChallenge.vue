@@ -114,10 +114,14 @@
     },
     computed: {
       isValid: function () {
-        let validationFields = ['name', 'description', 'tags'];
-        return validationFields.every(field => {
-          return !! this.challenge[field].length;
-        });
+        if(this.challenge && Object.keys(this.challenge).length) {
+          let validationFields = ['name', 'description', 'tags'];
+          return validationFields.every(field => {
+            return !! this.challenge[field].length;
+          });
+        } else {
+          return false;
+        }
       }
     },
     watch: {
