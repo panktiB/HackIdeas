@@ -47,7 +47,7 @@
               </span>
               <vs-icon
                 class="far fa-thumbs-up pr-10 pl-3 hover:text-primary pointer-cursor"
-                @click="handleVoting('likes', index)"
+                @click="handleVoting('likes', 'dislikes', index)"
               />
             </span>
             <span class="font-smaller">
@@ -56,7 +56,7 @@
               </span>
               <vs-icon
                 class="far fa-thumbs-down text-lightgrey pl-3 hover:text-dark pointer-cursor"
-                @click="handleVoting('dislikes', index)"
+                @click="handleVoting('dislikes', 'likes', index)"
               />
             </span>
           </template>
@@ -108,13 +108,16 @@
       processDate: function (createdDate) {
         return new Date(createdDate).toUTCString();
       },
-      handleVoting: function (type, challengeIndex) {
-        let existingVotes = this.challenges[challengeIndex][type];
-        let votedIndex = existingVotes.indexOf(this.getCurrentUser());
+      handleVoting: function (type, otherType, challengeIndex) {
+        let votedIndex = this.challenges[challengeIndex][type].indexOf(this.getCurrentUser());
+        let nonVotedIndex = this.challenges[challengeIndex][otherType].indexOf(this.getCurrentUser());
         if(votedIndex === -1) {
           this.challenges[challengeIndex][type].push(this.getCurrentUser());
         } else {
           this.challenges[challengeIndex][type].splice(votedIndex, 1);
+        }
+        if(nonVotedIndex > -1) {
+          this.challenges[challengeIndex][otherType].splice(nonVotedIndex, 1);
         }
         this.setChallenges(this.challenges);
       },
