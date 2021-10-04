@@ -1,5 +1,5 @@
 <template>
-  <vs-row class="ph-10">
+  <vs-row class="ph-10 challenge-view-container">
     <vs-col vs-w="12">
       <vs-row
         v-if="challenges.length > 1"
@@ -21,7 +21,7 @@
       <vs-row
         v-for="(challenge, index) in challenges"
         :key="challenge['name']"
-        class="bordered border-radius-5 p-10 mv-10 font-medium"
+        class="bordered border-radius-5 p-10 mv-15 font-medium"
       >
         <vs-col vs-w="4">
           {{ challenge['name'] }}
@@ -68,10 +68,11 @@
 
 <script>
   import employeeMixin from '../mixins/employeeMixin';
+  import challengeMixin from '../mixins/challengeMixin';
 
   export default {
     name: 'AppChallenges',
-    mixins: [employeeMixin],
+    mixins: [employeeMixin, challengeMixin],
     props: {
       savedChallenges: {
         type: Array,
@@ -81,6 +82,7 @@
     data: function () {
       return {
         challenges: [],
+        currentUserActivity: {},
         sortOptions: [
           {
             name: 'created',
@@ -104,11 +106,17 @@
     },
     methods: {
       processDate: function (createdDate) {
-        // return new Date(createdDate).toDateString();
         return new Date(createdDate).toUTCString();
       },
       handleVoting: function (type, challengeIndex) {
-        this.challenges[challengeIndex][type]++;
+        if(this.currentUserActivity[type]) {
+          this.challenges[challengeIndex][type]--;
+          this.$set(this.currentUserActivity, type, false);
+        } else {
+          this.challenges[challengeIndex][type]++;
+          this.$set(this.currentUserActivity, type, true);
+        }
+        this.setChallenges(this.challenges);
       },
       sortChallenges: function (type) {
         let typeMap = {
@@ -148,3 +156,10 @@
     }
   };
 </script>
+
+<style scoped lang="scss">
+  .challenge-view-container {
+    max-height: calc(100% - 30px);
+    overflow-y: auto;
+  }
+</style>

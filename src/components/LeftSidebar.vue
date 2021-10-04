@@ -1,45 +1,63 @@
 <template>
   <vs-row>
-    <vs-col vs-w="12">
+    <vs-col
+      vs-w="12"
+      class="pt-60 pl-10"
+    >
       <vs-row
-        class="font-medium pv-10 pl-10 text-primary bordered-bottom"
-        vs-align="center"
+        v-for="(tag, index) in availableFilters"
+        :key="index"
+        class="pb-10"
       >
-        <vs-icon
-          icon="fas fa-user font-small pr-5"
+        <vs-checkbox
+          v-model="activeFilters"
           icon-pack="fa5"
-        />
-        {{ currentUser }}
+          size="small"
+          icon="fas fa-check"
+          :vs-value="tag"
+          class="font-medium"
+          @change="updateChallenges()"
+        >
+          <span :class="`select-filter-${tag}`">
+            {{ tag }}
+          </span>
+        </vs-checkbox>
       </vs-row>
-      <vs-row />
-      <vs-button
-        class="position-fixed logout-button pv-5 ph-8"
-        type="border"
-        @click="logout"
-      >
-        <span class="test-logout">
-          Logout
-        </span>
-      </vs-button>
     </vs-col>
   </vs-row>
 </template>
 
 <script>
-  import { EventBus } from '../eventBus';
 
   export default {
     name: 'LeftSidebar',
     props: {
-      currentUser: {
-        type: [String, Number],
-        default: null,
+      challenges: {
+        type: Array,
+        default: () => []
+      }
+    },
+    data: function () {
+      return {
+        activeFilters: [],
+        availableFilters: [],
+      };
+    },
+    watch: {
+      challenges: {
+        immediate: true,
+        deep: true,
+        handler: function () {
+          let tags = this.challenges.map(challenge => {
+            return challenge['tags'];
+          });
+          this.availableFilters = [...new Set(tags)];
+        }
       }
     },
     methods: {
-      logout: function () {
-        EventBus.$emit('logout');
-        this.routeTo('Login');
+      updateChallenges: function () {
+        this.$emit('apply-filters', this.activeFilters);
       }
     }
   };

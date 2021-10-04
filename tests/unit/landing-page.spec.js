@@ -1,6 +1,5 @@
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import LandingPage from '../../src/pages/LandingPage';
-import LeftSidebar from '../../src/components/LeftSidebar';
 import employeeMixin from '../../src/mixins/employeeMixin';
 import challengeMixin from '../../src/mixins/challengeMixin';
 import globalMixin from '../../src/globalMixin';
@@ -49,14 +48,10 @@ describe('Landing Page', () => {
   });
 });
 
-describe('Left sidebar', () => {
-  const sidebar = mount(LeftSidebar, {
-    mixins: [globalMixin],
-    localVue, router
-  });
+describe('Testing logout', () => {
   it('Can logout', async () => {
-    await sidebar.find('.test-logout').trigger('click');
-    expect(sidebar.vm.$route.name).toBe('Login');
+    await wrapper.find('.test-logout').trigger('click');
+    expect(wrapper.vm.$route.name).toBe('Login');
   });
 })
 
