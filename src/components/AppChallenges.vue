@@ -43,7 +43,7 @@
           <template v-else>
             <span class="font-smaller">
               <span class="text-lightgrey">
-                {{ challenge['likes'] ? challenge['likes'] : null }}
+                {{ challenge['likes'].length ? challenge['likes'].length : null }}
               </span>
               <vs-icon
                 class="far fa-thumbs-up pr-10 pl-3 hover:text-primary pointer-cursor"
@@ -52,7 +52,7 @@
             </span>
             <span class="font-smaller">
               <span class="text-lightgrey">
-                {{ challenge['dislikes'] ? challenge['dislikes'] : null }}
+                {{ challenge['dislikes'].length ? challenge['dislikes'].length : null }}
               </span>
               <vs-icon
                 class="far fa-thumbs-down text-lightgrey pl-3 hover:text-dark pointer-cursor"
@@ -109,12 +109,12 @@
         return new Date(createdDate).toUTCString();
       },
       handleVoting: function (type, challengeIndex) {
-        if(this.currentUserActivity[type]) {
-          this.challenges[challengeIndex][type]--;
-          this.$set(this.currentUserActivity, type, false);
+        let existingVotes = this.challenges[challengeIndex][type];
+        let votedIndex = existingVotes.indexOf(this.getCurrentUser());
+        if(votedIndex === -1) {
+          this.challenges[challengeIndex][type].push(this.getCurrentUser());
         } else {
-          this.challenges[challengeIndex][type]++;
-          this.$set(this.currentUserActivity, type, true);
+          this.challenges[challengeIndex][type].splice(votedIndex, 1);
         }
         this.setChallenges(this.challenges);
       },
@@ -123,9 +123,9 @@
           'created': 'date',
           'likes': 'number'
         };
-        this.challenges.sort(this.performSort(type, 'ascending', typeMap[type]));
+        this.challenges.sort(this.performSort(type, 'descending', typeMap[type]));
       },
-      performSort: function (key, order = 'ascending', type = null) {
+      performSort: function (key, order = 'descending', type = null) {
         return (a, b) => {
           if (order === 'ascending') {
             return this.compareValues(type || 'other')(a[key], b[key]);

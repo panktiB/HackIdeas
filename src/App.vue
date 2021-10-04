@@ -32,6 +32,7 @@ export default {
     EventBus.$off('logout', this.handleLogout);
   },
   mounted () {
+    console.log(this.getCurrentUser());
     this.setDefaultRoute();
   },
   methods: {
@@ -47,7 +48,7 @@ export default {
     handleLogin: function (user) {
       this.isLoggedIn = true;
       this.currentUser = user;
-      this.setCurrentUser(this.currentUser);
+      this.setCurrentUser(user);
       localStorage.setItem('isLoggedIn', 'true');
     },
     handleLogout: function () {

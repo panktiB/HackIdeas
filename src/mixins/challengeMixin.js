@@ -8,8 +8,8 @@ let challengeMixin = {
         description: '',
         owner: null,
         tags: [],
-        likes: 0,
-        dislikes: 0,
+        likes: [],
+        dislikes: [],
         created: null,
       }
     };
