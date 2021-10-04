@@ -21,7 +21,7 @@
       <vs-row
         v-for="(challenge, index) in challenges"
         :key="challenge['name']"
-        class="bordered border-radius-5 p-10 mv-15 font-medium"
+        class="bordered border-radius-5 p-10 mv-15 font-medium challenge"
       >
         <vs-col vs-w="4">
           {{ challenge['name'] }}
@@ -36,6 +36,12 @@
           vs-align="center"
         >
           <template v-if="getCurrentUser() === challenge['owner']">
+            <span class="text-lightgrey font-smaller pr-5">
+              {{ challenge['likes'].length ? `${challenge['likes'].length} upvote(s)` : null }}
+            </span>
+            <span class="text-lightgrey font-smaller pr-5">
+              {{ challenge['dislikes'].length ? `${challenge['dislikes'].length} downvote(s)` : null }}
+            </span>
             <span class="text-lightgrey font-small">
               Owner
             </span>
@@ -164,5 +170,13 @@
   .challenge-view-container {
     max-height: calc(100% - 30px);
     overflow-y: auto;
+  }
+  .challenge {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+    box-shadow: 0 5px 8px 0.5px rgba(var(--vs-primary), 0.05);
   }
 </style>
